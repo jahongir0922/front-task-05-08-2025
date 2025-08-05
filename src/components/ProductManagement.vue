@@ -197,18 +197,32 @@ const saveProduct = () => {
       const index = products.value.findIndex(
         (u) => u.id === editingProduct.value!.id
       );
-      if (index !== -1) {
-        // console.log("object");
-        products.value[index] = {
-          ...editingProduct.value,
-          name: productForm.name,
-          category: productForm.category,
-          price: productForm.price,
-          stockQuantity: productForm.stockQuantity,
-          status: productForm.status,
-        };
+      // if (index !== -1) {
+      //   // console.log("object");
+      //   products.value[index] = {
+      //     ...editingProduct.value,
+      //     name: productForm.name,
+      //     category: productForm.category,
+      //     price: productForm.price,
+      //     stockQuantity: productForm.stockQuantity,
+      //     status: productForm.status,
+      //   };
 
-        // console.log(products.value[index]);
+      //   console.log(products.value);
+      // }
+      if (index !== -1) {
+        products.value = [
+          ...products.value.slice(0, index),
+          {
+            ...products.value[index],
+            name: productForm.name,
+            category: productForm.category,
+            price: productForm.price,
+            stockQuantity: productForm.stockQuantity,
+            status: productForm.status,
+          },
+          ...products.value.slice(index + 1),
+        ];
       }
     }
 
@@ -222,7 +236,7 @@ const saveProduct = () => {
   <div>
     <!-- Product Table -->
     <div class="bg-white rounded-lg shadow">
-      <DataTable :data="products" :columns="columns" :loading="false" />
+      <DataTable :data="products" :columns="columns" :loading="loading" />
     </div>
     <!-- Product Form Modal -->
     <div
